@@ -54,8 +54,13 @@ public class DeckService : IDeckService
         return _db.Find<Deck>(deckId);
     }
 
+    /// <inheritdoc />
     public void LoadFlashcards(Deck deck)
     {
-       deck.Flashcards = _db.Table<Flashcard>().Where(f => f.DeckId == deck.Id).ToList();
+        deck.Flashcards = _db
+            .Table<Flashcard>()
+            .Where(f => f.DeckId == deck.Id)
+            .OrderBy(f => f.NextReviewDate)
+            .ToList();
     }
 }

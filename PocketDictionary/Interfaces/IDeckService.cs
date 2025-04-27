@@ -8,38 +8,39 @@ namespace PocketDictionary.Interfaces;
 public interface IDeckService
 {
     /// <summary>
-    /// Retrieves all decks asynchronously.
+    /// Retrieves all decks.
     /// </summary>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a list of all decks.</returns>
+    /// <returns>A list of all decks.</returns>
     List<Deck> GetAllDecks();
 
     /// <summary>
-    /// Adds a new deck asynchronously.
+    /// Adds a new deck.
     /// </summary>
     /// <param name="deck">The deck to add.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     void AddDeck(Deck deck);
 
     /// <summary>
-    /// Updates an existing deck asynchronously.
+    /// Updates an existing deck.
     /// </summary>
     /// <param name="deck">The deck to update.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     void UpdateDeck(Deck deck);
 
     /// <summary>
-    /// Deletes a deck asynchronously by its unique identifier.
+    /// Deletes a deck by its unique identifier.
     /// </summary>
     /// <param name="deckId">The unique identifier of the deck to delete.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     void DeleteDeck(int deckId);
 
     /// <summary>
-    /// Gets a deck asynchronously by its unique identifier.
+    /// Retrieves a deck by its unique identifier.
     /// </summary>
-    /// <param name="deckId">The unique identifier of the deck to get.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <param name="deckId">The unique identifier of the deck to retrieve.</param>
+    /// <returns>The requested deck.</returns>
     Deck GetDeck(int deckId);
 
+    /// <summary>
+    /// Loads all flashcards associated with the specified deck.
+    /// </summary>
+    /// <param name="deck">The deck for which to load flashcards.</param>
     void LoadFlashcards(Deck deck);
 }

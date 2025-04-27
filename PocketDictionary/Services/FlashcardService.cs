@@ -8,9 +8,7 @@ namespace PocketDictionary.Services;
 /// </summary>
 public class FlashcardService : IFlashcardService
 {
-    /// <summary>
-    /// The SQLite asynchronous connection used for database operations.
-    /// </summary>
+    /// <inheritdoc />
     private readonly SQLiteConnection _db;
 
     public FlashcardService(IDbService dbService)
@@ -18,19 +16,13 @@ public class FlashcardService : IFlashcardService
         _db = dbService.GetConnection();
     }
 
-    /// <summary>
-    /// Adds a new flashcard to the database.
-    /// </summary>
-    /// <param name="card">The flashcard to add.</param>
+    /// <inheritdoc />
     public void AddFlashcard(Flashcard card)
     {
         _db.Insert(card);
     }
 
-    /// <summary>
-    /// Deletes a flashcard from the database by its unique identifier.
-    /// </summary>
-    /// <param name="id">The unique identifier of the flashcard to delete.</param>
+    /// <inheritdoc />
     public void DeleteFlashcard(int id)
     {
         var flashcard = _db.Find<Flashcard>(id);
@@ -38,19 +30,13 @@ public class FlashcardService : IFlashcardService
             _db.Delete(flashcard);
     }
 
-    /// <summary>
-    /// Retrieves all flashcards from the database.
-    /// </summary>
-    /// <returns>A list of all flashcards stored in the database.</returns>
+    /// <inheritdoc />
     public List<Flashcard> GetAllFlashcards()
     {
         return _db.Table<Flashcard>().ToList();
     }
 
-    /// <summary>
-    /// Retrieves a list of flashcards that are due for review.
-    /// </summary>
-    /// <returns>A list of flashcards with a NextReviewDate less than or equal to the current date and time.</returns>
+    /// <inheritdoc />
     public List<Flashcard> GetDueFlashcards()
     {
         return _db.Table<Flashcard>()
@@ -58,10 +44,7 @@ public class FlashcardService : IFlashcardService
             .ToList();
     }
 
-    /// <summary>
-    /// Updates an existing flashcard in the database.
-    /// </summary>
-    /// <param name="card">The flashcard to update.</param>
+    /// <inheritdoc />
     public void UpdateFlashcard(Flashcard card)
     {
         _db.Update(card);
