@@ -1,0 +1,74 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PocketDictionary.ViewModels"
+             x:Class="PocketDictionary.Views.ReviewPage"
+             BackgroundColor="White">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20">
+
+        <!-- Top Section: Deck Name and Remaining Cards -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+            <Label Text="{Binding Deck.Name}" 
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="Black"
+                   HorizontalOptions="Start" />
+
+            <Label Text="{Binding RemainingFlashcardsText}" 
+                   FontSize="18"
+                   TextColor="Gray"
+                   HorizontalOptions="End"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <!-- Flashcard Area -->
+        <Grid Grid.Row="1">
+            <SwipeView>
+                <SwipeView.LeftItems>
+                    <SwipeItem Text="Flip"
+                               BackgroundColor="LightGray"
+                               Command="{Binding FlipCardCommand}" />
+                </SwipeView.LeftItems>
+
+                <Frame x:Name="CardFrame"
+                       BackgroundColor="LightYellow"
+                       BorderColor="DarkGray"
+                       CornerRadius="20"
+                       Padding="40"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       HeightRequest="300"
+                       WidthRequest="300"
+                       HasShadow="True">
+
+                    <Label Text="{Binding CurrentFlashcardText}" 
+                           FontSize="28"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center" />
+
+                </Frame>
+            </SwipeView>
+        </Grid>
+
+        <!-- Bottom Section: Buttons -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,*">
+            <Button Text="I Don't Know"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    FontSize="18"
+                    Command="{Binding DontKnowCommand}"
+                    HorizontalOptions="Fill" />
+
+            <Button Text="I Know"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    FontSize="18"
+                    Command="{Binding KnowCommand}"
+                    HorizontalOptions="Fill" />
+        </Grid>
+
+    </Grid>
+</ContentPage>
