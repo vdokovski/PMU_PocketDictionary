@@ -53,6 +53,8 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
     /// </summary>
     public void LoadDeck()
     {
+        Deck.LastOpened = DateTime.Today;
+        _deckService.UpdateDeck(Deck);
         _deckService.LoadFlashcards(Deck);
         OnPropertyChanged(nameof(Deck));
     }
