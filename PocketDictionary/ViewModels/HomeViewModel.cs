@@ -62,9 +62,15 @@ public partial class HomeViewModel : ObservableObject
         {
             var deck = new Deck { Name = result };
             _deckService.AddDeck(deck);
-            LoadDecks();  // Reload the list of decks
+            LoadDecks();
         }
     }
+
+    /// <summary>
+    /// Command to delete a deck. Prompts the user for confirmation before deleting the deck.
+    /// </summary>
+    /// <param name="deck">The deck to delete.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [RelayCommand]
     async Task DeleteDeck(Deck deck)
     {
@@ -84,6 +90,11 @@ public partial class HomeViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Command to open a deck. Navigates to the deck details page.
+    /// </summary>
+    /// <param name="deck">The deck to open.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [RelayCommand]
     private async Task OpenDeckAsync(Deck deck)
     {

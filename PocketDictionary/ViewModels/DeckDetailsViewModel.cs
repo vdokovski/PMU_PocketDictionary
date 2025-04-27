@@ -10,6 +10,9 @@ using System.ComponentModel;
 
 namespace PocketDictionary.ViewModels;
 
+/// <summary>
+/// ViewModel for managing the details of a deck, including its flashcards and related actions.
+/// </summary>
 [QueryProperty("Deck", "deck")]
 public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChanged
 {
@@ -17,28 +20,47 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
     private readonly IFlashcardService _flashcardService;
 
     private Deck _deck;
+
+    /// <summary>
+    /// Gets or sets the deck being managed by this ViewModel.
+    /// </summary>
     public Deck Deck
     {
         get => _deck;
         set => SetProperty(ref _deck, value);
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DeckDetailsViewModel"/> class.
+    /// </summary>
     public DeckDetailsViewModel()
     {
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DeckDetailsViewModel"/> class with the specified services.
+    /// </summary>
+    /// <param name="deckService">The service for managing decks.</param>
+    /// <param name="flashcardService">The service for managing flashcards.</param>
     public DeckDetailsViewModel(IDeckService deckService, IFlashcardService flashcardService)
     {
         _deckService = deckService;
         _flashcardService = flashcardService;
     }
+
+    /// <summary>
+    /// Loads the flashcards associated with the current deck.
+    /// </summary>
     public void LoadDeck()
     {
         _deckService.LoadFlashcards(Deck);
-
-        // Refresh list if needed
         OnPropertyChanged(nameof(Deck));
     }
 
+    /// <summary>
+    /// Navigates to the details page of the specified flashcard.
+    /// </summary>
+    /// <param name="flashcard">The flashcard to view.</param>
     [RelayCommand]
     private async Task ViewFlashcardAsync(Flashcard flashcard)
     {
@@ -51,6 +73,10 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
         });
     }
 
+    /// <summary>
+    /// Deletes the specified flashcard after user confirmation.
+    /// </summary>
+    /// <param name="flashcard">The flashcard to delete.</param>
     [RelayCommand]
     private async Task DeleteFlashcardAsync(Flashcard flashcard)
     {
@@ -69,11 +95,19 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
             LoadDeck();
         }
     }
+
+    /// <summary>
+    /// Navigates back to the home page.
+    /// </summary>
     [RelayCommand]
     private async Task BackAsync()
     {
         await Shell.Current.GoToAsync("//HomePage");
     }
+
+    /// <summary>
+    /// Navigates to the page for creating a new flashcard in the current deck.
+    /// </summary>
     [RelayCommand]
     private async Task CreateFlashcardAsync()
     {
@@ -82,10 +116,13 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
             { "deck", Deck }
         });
     }
+
+    /// <summary>
+    /// Opens a modal to edit the name of the current deck.
+    /// </summary>
     [RelayCommand]
     private async Task OpenEditNameModalAsync()
     {
-        // Show a prompt for the user to enter a new name
         var result = await Shell.Current.DisplayPromptAsync(
             "Change Deck Name",
             "Enter a new name for your deck",
@@ -97,9 +134,14 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
         {
             Deck.Name = result;
             _deckService.UpdateDeck(Deck);
-            OnPropertyChanged(nameof(Deck)); // Update the UI
+            OnPropertyChanged(nameof(Deck));
         }
     }
+
+    /// <summary>
+    /// Navigates to the review page for the specified deck.
+    /// </summary>
+    /// <param name="deck">The deck to review.</param>
     [RelayCommand]
     private async Task ReviewDeckAsync(Deck deck)
     {

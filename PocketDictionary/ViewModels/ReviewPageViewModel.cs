@@ -16,6 +16,10 @@ namespace PocketDictionary.ViewModels
         private readonly IFlashcardService _flashcardService;
 
         private string _deckId;
+
+        /// <summary>
+        /// Gets or sets the DeckId. When set, it retrieves the deck and loads it.
+        /// </summary>
         public string DeckId
         {
             get => _deckId;
@@ -30,6 +34,10 @@ namespace PocketDictionary.ViewModels
         }
 
         private Deck _deck;
+
+        /// <summary>
+        /// Gets or sets the current deck being reviewed.
+        /// </summary>
         public Deck Deck
         {
             get => _deck;
@@ -40,14 +48,25 @@ namespace PocketDictionary.ViewModels
         private bool _isFrontVisible = true;
         private bool _hasBeenFlipped = false;
 
+        /// <summary>
+        /// Gets a value indicating whether the current flashcard has been flipped.
+        /// </summary>
         public bool HasBeenFlipped
         {
             get => _hasBeenFlipped;
             private set => SetProperty(ref _hasBeenFlipped, value);
         }
 
+        /// <summary>
+        /// Gets the collection of flashcards to review.
+        /// </summary>
         public ObservableCollection<Flashcard> FlashcardsToReview { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReviewPageViewModel"/> class with the specified services.
+        /// </summary>
+        /// <param name="flashcardService">The flashcard service.</param>
+        /// <param name="deckService">The deck service.</param>
         public ReviewPageViewModel(IFlashcardService flashcardService, IDeckService deckService)
         {
             _deckService = deckService;
@@ -55,11 +74,18 @@ namespace PocketDictionary.ViewModels
             FlashcardsToReview = new ObservableCollection<Flashcard>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReviewPageViewModel"/> class.
+        /// </summary>
         public ReviewPageViewModel()
         {
         }
 
         private Flashcard _currentFlashcard;
+
+        /// <summary>
+        /// Gets or sets the current flashcard being reviewed.
+        /// </summary>
         public Flashcard CurrentFlashcard
         {
             get => _currentFlashcard;
@@ -71,10 +97,19 @@ namespace PocketDictionary.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the text of the current flashcard, either the front or back depending on visibility.
+        /// </summary>
         public string CurrentFlashcardText => _isFrontVisible ? CurrentFlashcard?.Front : CurrentFlashcard?.Back;
 
+        /// <summary>
+        /// Gets the text indicating the number of remaining flashcards to review.
+        /// </summary>
         public string RemainingFlashcardsText => $"Remaining cards: {FlashcardsToReview.Count - _currentIndex}";
 
+        /// <summary>
+        /// Updates the current flashcard to the next one in the review list.
+        /// </summary>
         private void UpdateCurrentFlashcard()
         {
             if (_currentIndex < FlashcardsToReview.Count)
@@ -87,10 +122,13 @@ namespace PocketDictionary.ViewModels
             }
             else
             {
-                // End of review - navigate back
                 Shell.Current.Navigation.PopAsync();
             }
         }
+
+        /// <summary>
+        /// Loads the deck and prepares the flashcards for review.
+        /// </summary>
         public void LoadDeck()
         {
             if (Deck != null)
@@ -102,12 +140,13 @@ namespace PocketDictionary.ViewModels
                     FlashcardsToReview.Add(flashcard);
                 }
                 UpdateCurrentFlashcard();
-                
-                // Refresh list if needed
                 OnPropertyChanged(nameof(Deck));
             }
         }
 
+        /// <summary>
+        /// Flips the current flashcard to show the back side.
+        /// </summary>
         [RelayCommand]
         private void FlipCard()
         {
@@ -119,18 +158,16 @@ namespace PocketDictionary.ViewModels
             }
         }
 
+        /// <summary>
+        /// Marks the current flashcard as known and updates its review date.
+        /// </summary>
         [RelayCommand]
         private void KnowCard()
         {
             if (CurrentFlashcard != null)
             {
-                // Increment consecutive correct answers
                 CurrentFlashcard.CorrectAnswersInARow++;
-                
-                // Set next review date to current date + consecutive days
                 CurrentFlashcard.NextReviewDate = DateTime.Now.AddDays(CurrentFlashcard.CorrectAnswersInARow);
-                
-                // Save changes to database
                 _flashcardService.UpdateFlashcard(CurrentFlashcard);
             }
 
@@ -138,19 +175,17 @@ namespace PocketDictionary.ViewModels
             UpdateCurrentFlashcard();
         }
 
+        /// <summary>
+        /// Marks the current flashcard as not known and updates its review date.
+        /// </summary>
         [RelayCommand]
         private void DontKnowCard()
         {
             if (CurrentFlashcard != null)
             {
-                // Decrement consecutive correct answers (minimum 0)
                 CurrentFlashcard.CorrectAnswersInARow = Math.Max(0, CurrentFlashcard.CorrectAnswersInARow - 1);
-                
-                // Set next review date to current date + 2 * consecutive days
                 int daysToAdd = 2 * Math.Max(1, CurrentFlashcard.CorrectAnswersInARow);
                 CurrentFlashcard.NextReviewDate = DateTime.Now.AddDays(daysToAdd);
-                
-                // Save changes to database
                 _flashcardService.UpdateFlashcard(CurrentFlashcard);
             }
 
