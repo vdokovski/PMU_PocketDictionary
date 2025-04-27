@@ -103,6 +103,7 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
     [RelayCommand]
     private async Task ReviewDeckAsync()
     {
-        await Shell.Current.GoToAsync("//HomePage");
+        var flashcardService = Handler.MauiContext.Services.GetService<IFlashcardService>();
+        await Shell.Current.Navigation.PushAsync(new ReviewPage(Deck, flashcardService));
     }
 }
