@@ -1,0 +1,84 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PocketDictionary.ViewModels"
+             x:Class="PocketDictionary.Views.DeckDetailsPage"
+             Title="{Binding Deck.Name}">
+
+    <!-- Use Grid to arrange the content and buttons -->
+    <Grid RowDefinitions="Auto,*,Auto,Auto" Padding="20">
+        <!-- Deck Title and Pen Icon in Row 0 -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+            <!-- Deck Title aligned left -->
+            <Label Text="{Binding Deck.Name}" 
+                   FontSize="32" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Start" 
+                   VerticalOptions="Center" 
+                   TextColor="Black" />
+
+            <!-- Pen Icon aligned right -->
+            <ImageButton Source="pen_icon.png"
+                         HorizontalOptions="End"
+                         VerticalOptions="Center"
+                         WidthRequest="30"
+                         HeightRequest="30"
+                         BackgroundColor="Transparent"
+                         Command="{Binding OpenEditNameModalCommand}" />
+        </Grid>
+
+        <!-- Scrollable area for the flashcards in Row 1 -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="10">
+                <!-- CollectionView for Flashcards -->
+                <CollectionView ItemsSource="{Binding Deck.Flashcards}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <!-- Right side swipe items -->
+                                <SwipeView.RightItems>
+                                    <SwipeItem 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:DeckDetailsViewModel}}, Path=DeleteFlashcardCommand}"
+                                        CommandParameter="{Binding .}"
+                                        IconImageSource="trash_icon.png"
+                                        BackgroundColor="Red" />
+                                </SwipeView.RightItems>
+
+                                <!-- Frame containing the flashcard information -->
+                                <Frame BorderColor="LightGray" CornerRadius="10" Padding="10" Margin="5">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:DeckDetailsViewModel}}, Path=ViewFlashcardCommand}" CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding Front}" FontSize="20" FontAttributes="Bold" HorizontalOptions="Start" />
+                                        <Label Text="{Binding NextReviewDate, StringFormat='Next Review: {0:dd.MM.yyyy}'}" FontSize="14" HorizontalOptions="Start" />
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Button to navigate to create a flashcard page in Row 2 -->
+        <Button Text="➕ Create a new Flashcard"
+                Command="{Binding CreateFlashcardCommand}"
+                BackgroundColor="DarkBlue"
+                TextColor="White"
+                FontSize="20"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center" 
+                Grid.Row="2"/>
+
+        <!-- Button to review the deck in Row 3 -->
+        <Button Text="Review Deck"
+                Command="{Binding ReviewDeckCommand}"
+                BackgroundColor="Green"
+                TextColor="White"
+                FontSize="20"
+                HorizontalOptions="Fill"
+                VerticalOptions="End" 
+                Grid.Row="3"/>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,68 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PocketDictionary.ViewModels"
+             x:Class="PocketDictionary.Views.HomePage"
+             Title="Pocket Dictionary">
+
+    <!-- Use Grid to arrange the content and buttons -->
+    <Grid RowDefinitions="*,Auto" Padding="20">
+        <!-- Scrollable area for the decks -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Your Decks" 
+                       FontSize="32" 
+                       HorizontalOptions="Center" 
+                       TextColor="Black" />
+
+                <CollectionView ItemsSource="{Binding Decks}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="5" ColumnDefinitions="*,Auto">
+                                <Frame BorderColor="LightGray"
+                                       CornerRadius="10"
+                                       Padding="10"
+                                       Margin="5"
+                                       BackgroundColor="White">
+                                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+
+                                        <VerticalStackLayout Grid.Column="0">
+                                            <Label Text="{Binding Name}" FontSize="20" />
+                                            <Label Text="{Binding Flashcards.Count, StringFormat='Cards: {0}'}" FontSize="14" />
+                                            <Label Text="{Binding LastOpened, StringFormat='Last opened: {0:dd.MM.yyyy}'}" FontSize="14" />
+                                        </VerticalStackLayout>
+
+                                        <ImageButton Grid.Column="1"
+                                                     Source="trash_icon.png"
+                                                     BackgroundColor="Transparent"
+                                                     WidthRequest="30"
+                                                     HeightRequest="30"
+                                                     HorizontalOptions="End"
+                                                     VerticalOptions="Center"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=DeleteDeckCommand}"
+                                                     CommandParameter="{Binding .}" />
+                                    </Grid>
+
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=OpenDeckCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Button to add a new deck -->
+        <Button Text="➕ Add New Deck" 
+                Command="{Binding AddDeckCommand}" 
+                BackgroundColor="DarkBlue" 
+                TextColor="White" 
+                FontSize="20"
+                HorizontalOptions="Fill"
+                VerticalOptions="End"
+                Grid.Row="1" />
+    </Grid>
+</ContentPage>

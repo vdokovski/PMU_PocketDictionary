@@ -1,0 +1,35 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PocketDictionary.ViewModels"
+             x:Class="PocketDictionary.Views.CreateFlashcardPage"
+             Title="Create Flashcard">
+
+    <VerticalStackLayout Padding="20" Spacing="10">
+
+        <!-- Deck Name -->
+        <Label Text="{Binding Deck.Name}"
+               FontSize="24"
+               HorizontalOptions="Center"
+               TextColor="Black" />
+
+        <!-- Front Text Input -->
+        <Entry Placeholder="Front Text" 
+               Text="{Binding Flashcard.Front}" 
+               FontSize="18" />
+
+        <!-- Back Text Input -->
+        <Entry Placeholder="Back Text" 
+               Text="{Binding Flashcard.Back}" 
+               FontSize="18" />
+
+        <!-- Button to Save Flashcard -->
+        <Button Text="Save Flashcard"
+                Command="{Binding SaveFlashcardCommand}"
+                BackgroundColor="DarkBlue"
+                TextColor="White"
+                FontSize="20"
+                HorizontalOptions="Fill"
+                VerticalOptions="End" />
+
+    </VerticalStackLayout>
+</ContentPage>
