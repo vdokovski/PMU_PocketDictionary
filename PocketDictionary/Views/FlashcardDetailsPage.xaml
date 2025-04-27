@@ -8,7 +8,6 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="20">
 
-                <!-- Front Side -->
                 <VerticalStackLayout>
                     <Label Text="Front" 
                            FontSize="20" 
@@ -35,7 +34,6 @@
                     </Frame>
                 </VerticalStackLayout>
 
-                <!-- Back Side -->
                 <VerticalStackLayout>
                     <Label Text="Back" 
                            FontSize="20" 
@@ -62,7 +60,6 @@
                     </Frame>
                 </VerticalStackLayout>
 
-                <!-- Consecutive Correct Answers -->
                 <HorizontalStackLayout Margin="0,20,0,0" Spacing="10">
                     <Label Text="Consecutive Correct Answers:" 
                            FontSize="18" 
@@ -73,7 +70,6 @@
                            TextColor="Black" />
                 </HorizontalStackLayout>
 
-                <!-- Next Review Date -->
                 <HorizontalStackLayout Margin="0,10,0,0" Spacing="10">
                     <Label Text="Next Review Date:" 
                            FontSize="18" 
@@ -87,7 +83,6 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Edit/Save Button -->
         <Button Grid.Row="1" 
                 Text="{Binding EditButtonText}" 
                 Command="{Binding ToggleEditModeCommand}"

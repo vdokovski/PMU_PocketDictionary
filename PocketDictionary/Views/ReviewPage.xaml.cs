@@ -8,6 +8,10 @@ namespace PocketDictionary.Views
     {
         readonly ReviewPageViewModel _viewModel;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReviewPage"/> class.
+        /// </summary>
+        /// <param name="viewModel">The view model for the review page.</param>
         public ReviewPage(ReviewPageViewModel viewModel)
         {
             InitializeComponent();
@@ -15,10 +19,13 @@ namespace PocketDictionary.Views
             BindingContext = _viewModel;
         }
 
-        // SwipeGestureRecognizer invokes this
+        /// <summary>
+        /// Handles the swipe gesture to flip the card.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The swipe event arguments.</param>
         void OnSwiped(object sender, SwipedEventArgs e)
         {
-            // Only flip if left or right, and not already flipped
             if ((e.Direction == SwipeDirection.Left || e.Direction == SwipeDirection.Right)
                 && !_viewModel.HasBeenFlipped)
             {
@@ -26,15 +33,14 @@ namespace PocketDictionary.Views
             }
         }
 
+        /// <summary>
+        /// Animates the flipping of the card.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         async Task FlipCardAnimation()
         {
-            // scale down
             await CardFrame.ScaleXTo(0, 100, Easing.CubicIn);
-
-            // flip in VM
             _viewModel.FlipCardCommand.Execute(null);
-
-            // scale back up
             await CardFrame.ScaleXTo(1, 100, Easing.CubicOut);
         }
     }
