@@ -108,7 +108,7 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
 
         await Shell.Current.GoToAsync(nameof(ReviewPage), new Dictionary<string, object>
             {
-                { "deck", deck }
+                { "deckId", deck.Id }
             });
     }
 }
