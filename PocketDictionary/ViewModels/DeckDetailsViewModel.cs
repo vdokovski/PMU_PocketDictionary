@@ -45,7 +45,10 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
         if (flashcard == null)
             return;
 
-        //await Shell.Current.Navigation.PushAsync(new FlashcardDetailsPage(flashcard));
+        await Shell.Current.GoToAsync(nameof(FlashcardDetailsPage), new Dictionary<string, object>
+        {
+            { "flashcard", flashcard }
+        });
     }
 
     [RelayCommand]

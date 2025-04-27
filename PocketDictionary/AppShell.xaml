@@ -16,4 +16,5 @@
     
     <ShellContent Title="Create Flashcard" Route="CreateFlashcardPage" ContentTemplate="{DataTemplate local:CreateFlashcardPage}" />
 
+    <ShellContent Title="Flashcard Details" Route="FlashcardDetailsPage" ContentTemplate="{DataTemplate local:FlashcardDetailsPage}" />
 </Shell>
