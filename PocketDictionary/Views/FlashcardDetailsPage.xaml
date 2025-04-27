@@ -4,78 +4,86 @@
              x:Class="PocketDictionary.Views.FlashcardDetailsPage"
              Title="Flashcard Details">
 
-    <Grid Padding="20" RowDefinitions="*, Auto">
+    <Grid Padding="20" RowDefinitions="*,Auto">
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="20">
+
                 <!-- Front Side -->
                 <VerticalStackLayout>
-                    <Label Text="Front Side" 
+                    <Label Text="Front" 
                            FontSize="20" 
-                           FontAttributes="Bold" 
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
                            Margin="0,0,0,5"/>
-                    
-                    <Frame BackgroundColor="#f05454" 
-                           Padding="20" 
-                           BorderColor="Transparent" 
-                           CornerRadius="10">
+
+                    <Frame BackgroundColor="White" 
+                           Padding="30"
+                           BorderColor="LightGray" 
+                           CornerRadius="10"
+                           HeightRequest="150">
                         <Entry Text="{Binding Flashcard.Front}" 
                                IsReadOnly="{Binding IsReadOnly}" 
-                               TextColor="White" 
+                               TextColor="Black"
                                FontSize="18"
                                HorizontalOptions="Fill"
-                               VerticalOptions="Center"/>
+                               VerticalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="Transparent"
+                               />
                     </Frame>
                 </VerticalStackLayout>
 
                 <!-- Back Side -->
                 <VerticalStackLayout>
-                    <Label Text="Back Side" 
+                    <Label Text="Back" 
                            FontSize="20" 
-                           FontAttributes="Bold" 
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
                            Margin="0,0,0,5"/>
-                    
-                    <Frame BackgroundColor="#f05454" 
-                           Padding="20" 
-                           BorderColor="Transparent" 
-                           CornerRadius="10">
+
+                    <Frame BackgroundColor="White" 
+                           Padding="30"
+                           BorderColor="LightGray" 
+                           CornerRadius="10"
+                           HeightRequest="150">
                         <Entry Text="{Binding Flashcard.Back}" 
                                IsReadOnly="{Binding IsReadOnly}" 
-                               TextColor="White" 
+                               TextColor="Black"
                                FontSize="18"
                                HorizontalOptions="Fill"
-                               VerticalOptions="Center"/>
+                               VerticalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="Transparent"
+                               />
                     </Frame>
                 </VerticalStackLayout>
 
-                <!-- Consecutive Answers In A Row -->
-                <VerticalStackLayout>
-                    <Label Text="Consecutive Correct Answers" 
-                           FontSize="20" 
-                           FontAttributes="Bold" 
-                           Margin="0,0,0,5"/>
-                    
-                    <Frame BorderColor="LightGray" 
-                           Padding="20" 
-                           CornerRadius="10">
-                        <Label Text="{Binding Flashcard.CorrectAnswersInARow}" 
-                               FontSize="18"/>
-                    </Frame>
-                </VerticalStackLayout>
+                <!-- Consecutive Correct Answers -->
+                <HorizontalStackLayout Margin="0,20,0,0" Spacing="10">
+                    <Label Text="Consecutive Correct Answers:" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="Black" />
+                    <Label Text="{Binding Flashcard.CorrectAnswersInARow}" 
+                           FontSize="18"
+                           TextColor="Black" />
+                </HorizontalStackLayout>
 
-                <!-- Due Date Information -->
-                <VerticalStackLayout>
-                    <Label Text="Next Review Date" 
-                           FontSize="20" 
-                           FontAttributes="Bold" 
-                           Margin="0,0,0,5"/>
-                    
-                    <Frame BorderColor="LightGray" 
-                           Padding="20" 
-                           CornerRadius="10">
-                        <Label Text="{Binding Flashcard.NextReviewDate, StringFormat='{0:dd.MM.yyyy}'}" 
-                               FontSize="18"/>
-                    </Frame>
-                </VerticalStackLayout>
+                <!-- Next Review Date -->
+                <HorizontalStackLayout Margin="0,10,0,0" Spacing="10">
+                    <Label Text="Next Review Date:" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="Black" />
+                    <Label Text="{Binding Flashcard.NextReviewDate, StringFormat='{0:dd.MM.yyyy}'}" 
+                           FontSize="18"
+                           TextColor="Black" />
+                </HorizontalStackLayout>
+
             </VerticalStackLayout>
         </ScrollView>
 
@@ -89,4 +97,4 @@
                 Margin="0,20,0,0"
                 HorizontalOptions="Fill"/>
     </Grid>
-</ContentPage> 
+</ContentPage>
