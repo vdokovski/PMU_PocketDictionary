@@ -46,7 +46,6 @@
 
                 <Frame x:Name="CardFrame"
                        BackgroundColor="#f44336"
-                       TextColor="White"
                        BorderColor="#d32f2f"
                        CornerRadius="20"
                        Padding="40"
