@@ -47,6 +47,21 @@
                     </Frame>
                 </VerticalStackLayout>
 
+                <!-- Consecutive Answers In A Row -->
+                <VerticalStackLayout>
+                    <Label Text="Consecutive Correct Answers" 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           Margin="0,0,0,5"/>
+                    
+                    <Frame BorderColor="LightGray" 
+                           Padding="20" 
+                           CornerRadius="10">
+                        <Label Text="{Binding Flashcard.CorrectAnswersInARow}" 
+                               FontSize="18"/>
+                    </Frame>
+                </VerticalStackLayout>
+
                 <!-- Due Date Information -->
                 <VerticalStackLayout>
                     <Label Text="Next Review Date" 
