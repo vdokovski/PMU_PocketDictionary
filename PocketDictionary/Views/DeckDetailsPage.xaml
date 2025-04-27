@@ -74,6 +74,7 @@
         <!-- Button to review the deck in Row 3 -->
         <Button Text="Review Deck"
                 Command="{Binding ReviewDeckCommand}"
+                CommandParameter="{Binding Deck}"
                 BackgroundColor="Green"
                 TextColor="White"
                 FontSize="20"

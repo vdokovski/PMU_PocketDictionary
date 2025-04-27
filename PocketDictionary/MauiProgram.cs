@@ -26,10 +26,12 @@ namespace PocketDictionary
             builder.Services.AddTransient<HomeViewModel>();
             builder.Services.AddTransient<DeckDetailsViewModel>();
             builder.Services.AddTransient<FlashcardDetailsViewModel>();
+            builder.Services.AddTransient<ReviewPageViewModel>();
             builder.Services.AddTransient<CreateFlashcardPage>();
             builder.Services.AddTransient<HomePage>();
             builder.Services.AddTransient<DeckDetailsPage>();
             builder.Services.AddTransient<FlashcardDetailsPage>();
+            builder.Services.AddTransient<ReviewPage>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

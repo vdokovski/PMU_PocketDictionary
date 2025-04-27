@@ -13,11 +13,11 @@ namespace PocketDictionary.Views
     {
         private readonly ReviewPageViewModel _viewModel;
 
-        public ReviewPage(Deck deck, IFlashcardService flashcardService)
+        public ReviewPage(ReviewPageViewModel viewModel)
         {
             InitializeComponent();
-            _viewModel = new ReviewPageViewModel(deck, flashcardService);
-            BindingContext = _viewModel;
+            _viewModel = viewModel;
+            BindingContext = viewModel;
         }
 
         protected override void OnAppearing()

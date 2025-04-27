@@ -34,5 +34,12 @@ public interface IDeckService
     /// <returns>A task that represents the asynchronous operation.</returns>
     void DeleteDeck(int deckId);
 
+    /// <summary>
+    /// Gets a deck asynchronously by its unique identifier.
+    /// </summary>
+    /// <param name="deckId">The unique identifier of the deck to get.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    Deck GetDeck(int deckId);
+
     void LoadFlashcards(Deck deck);
 }

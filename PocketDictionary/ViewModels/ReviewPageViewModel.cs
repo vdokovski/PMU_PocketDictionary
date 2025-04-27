@@ -3,41 +3,43 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Controls;
+using MvvmHelpers;
+using PocketDictionary.Interfaces;
 using PocketDictionary.Models;
-using PocketDictionary.Services;
 
 namespace PocketDictionary.ViewModels
 {
-    public class ReviewPageViewModel : INotifyPropertyChanged
+    [QueryProperty("Deck", "deck")]
+    public partial class ReviewPageViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        private readonly IDeckService _deckService;
         private readonly IFlashcardService _flashcardService;
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private Deck _deck;
+        public Deck Deck
+        {
+            get => _deck;
+            set => SetProperty(ref _deck, value);
+        }
 
-        public Deck Deck { get; }
         private int _currentIndex = 0;
         private bool _isFrontVisible = true;
 
         public ObservableCollection<Flashcard> FlashcardsToReview { get; }
 
-        public ICommand FlipCardCommand { get; }
-        public ICommand KnowCommand { get; }
-        public ICommand DontKnowCommand { get; }
-
-        public ReviewPageViewModel(Deck deck, IFlashcardService flashcardService)
+        public ReviewPageViewModel(IFlashcardService flashcardService, IDeckService deckService)
         {
-            Deck = deck;
+            _deckService = deckService;
             _flashcardService = flashcardService;
-            FlashcardsToReview = new ObservableCollection<Flashcard>(deck.Flashcards.Where(f => f.NextReviewDate <= DateTime.Now));
-
-            FlipCardCommand = new RelayCommand(FlipCard);
-            KnowCommand = new RelayCommand(KnowCard);
-            DontKnowCommand = new RelayCommand(DontKnowCard);
+            Deck = _deckService.GetDeck(3);
+            LoadDeck();
+            FlashcardsToReview = new ObservableCollection<Flashcard>(Deck.Flashcards.Where(f => f.NextReviewDate <= DateTime.Now));
 
             UpdateCurrentFlashcard();
+        }
+
+        public ReviewPageViewModel()
+        {
         }
 
         private Flashcard _currentFlashcard;
@@ -68,16 +70,25 @@ namespace PocketDictionary.ViewModels
             else
             {
                 // End of review - navigate back
-                Application.Current.MainPage.Navigation.PopAsync();
+                Shell.Current.Navigation.PopAsync();
             }
         }
+        public void LoadDeck()
+        {
+            _deckService.LoadFlashcards(Deck);
 
+            // Refresh list if needed
+            OnPropertyChanged(nameof(Deck));
+        }
+
+        [RelayCommand]
         private void FlipCard()
         {
             _isFrontVisible = !_isFrontVisible;
             OnPropertyChanged(nameof(CurrentFlashcardText));
         }
 
+        [RelayCommand]
         private void KnowCard()
         {
             if (CurrentFlashcard != null)
@@ -96,6 +107,7 @@ namespace PocketDictionary.ViewModels
             UpdateCurrentFlashcard();
         }
 
+        [RelayCommand]
         private void DontKnowCard()
         {
             if (CurrentFlashcard != null)

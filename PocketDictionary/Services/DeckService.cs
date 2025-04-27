@@ -48,6 +48,11 @@ public class DeckService : IDeckService
         if (deck != null)
             _db.Delete(deck);
     }
+    /// <inheritdoc />
+    public Deck GetDeck(int deckId)
+    {
+        return _db.Find<Deck>(deckId);
+    }
 
     public void LoadFlashcards(Deck deck)
     {

@@ -11,6 +11,7 @@ namespace PocketDictionary
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
             Routing.RegisterRoute(nameof(CreateFlashcardPage), typeof(CreateFlashcardPage));
             Routing.RegisterRoute(nameof(FlashcardDetailsPage), typeof(FlashcardDetailsPage));
+            Routing.RegisterRoute(nameof(ReviewPage), typeof(ReviewPage));
         }
     }
 }

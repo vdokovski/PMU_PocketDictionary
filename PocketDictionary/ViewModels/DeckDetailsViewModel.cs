@@ -101,9 +101,14 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
         }
     }
     [RelayCommand]
-    private async Task ReviewDeckAsync()
+    private async Task ReviewDeckAsync(Deck deck)
     {
-        var flashcardService = Handler.MauiContext.Services.GetService<IFlashcardService>();
-        await Shell.Current.Navigation.PushAsync(new ReviewPage(Deck, flashcardService));
+        if (deck == null)
+            return;
+
+        await Shell.Current.GoToAsync(nameof(ReviewPage), new Dictionary<string, object>
+            {
+                { "deck", deck }
+            });
     }
 }
