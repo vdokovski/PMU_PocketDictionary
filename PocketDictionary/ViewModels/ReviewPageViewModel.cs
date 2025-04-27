@@ -15,15 +15,15 @@ namespace PocketDictionary.ViewModels
         private readonly IDeckService _deckService;
         private readonly IFlashcardService _flashcardService;
 
-        private int _deckId;
-        public int DeckId
+        private string _deckId;
+        public string DeckId
         {
             get => _deckId;
             set
             {
                 if (SetProperty(ref _deckId, value) && _deckService != null)
                 {
-                    Deck = _deckService.GetDeck(value);
+                    Deck = _deckService.GetDeck(int.Parse(value));
                     LoadDeck();
                 }
             }
