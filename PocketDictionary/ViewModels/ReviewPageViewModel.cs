@@ -9,11 +9,25 @@ using PocketDictionary.Models;
 
 namespace PocketDictionary.ViewModels
 {
-    [QueryProperty("Deck", "deck")]
+    [QueryProperty(nameof(DeckId), "deckId")]
     public partial class ReviewPageViewModel : BaseViewModel, INotifyPropertyChanged
     {
         private readonly IDeckService _deckService;
         private readonly IFlashcardService _flashcardService;
+
+        private int _deckId;
+        public int DeckId
+        {
+            get => _deckId;
+            set
+            {
+                if (SetProperty(ref _deckId, value) && _deckService != null)
+                {
+                    Deck = _deckService.GetDeck(value);
+                    LoadDeck();
+                }
+            }
+        }
 
         private Deck _deck;
         public Deck Deck
@@ -24,6 +38,13 @@ namespace PocketDictionary.ViewModels
 
         private int _currentIndex = 0;
         private bool _isFrontVisible = true;
+        private bool _hasBeenFlipped = false;
+
+        public bool HasBeenFlipped
+        {
+            get => _hasBeenFlipped;
+            private set => SetProperty(ref _hasBeenFlipped, value);
+        }
 
         public ObservableCollection<Flashcard> FlashcardsToReview { get; }
 
@@ -31,11 +52,7 @@ namespace PocketDictionary.ViewModels
         {
             _deckService = deckService;
             _flashcardService = flashcardService;
-            Deck = _deckService.GetDeck(3);
-            LoadDeck();
-            FlashcardsToReview = new ObservableCollection<Flashcard>(Deck.Flashcards.Where(f => f.NextReviewDate <= DateTime.Now));
-
-            UpdateCurrentFlashcard();
+            FlashcardsToReview = new ObservableCollection<Flashcard>();
         }
 
         public ReviewPageViewModel()
@@ -64,6 +81,7 @@ namespace PocketDictionary.ViewModels
             {
                 CurrentFlashcard = FlashcardsToReview[_currentIndex];
                 _isFrontVisible = true;
+                HasBeenFlipped = false;
                 OnPropertyChanged(nameof(CurrentFlashcardText));
                 OnPropertyChanged(nameof(RemainingFlashcardsText));
             }
@@ -75,17 +93,30 @@ namespace PocketDictionary.ViewModels
         }
         public void LoadDeck()
         {
-            _deckService.LoadFlashcards(Deck);
-
-            // Refresh list if needed
-            OnPropertyChanged(nameof(Deck));
+            if (Deck != null)
+            {
+                _deckService.LoadFlashcards(Deck);
+                FlashcardsToReview.Clear();
+                foreach (var flashcard in Deck.Flashcards.Where(f => f.NextReviewDate <= DateTime.Now))
+                {
+                    FlashcardsToReview.Add(flashcard);
+                }
+                UpdateCurrentFlashcard();
+                
+                // Refresh list if needed
+                OnPropertyChanged(nameof(Deck));
+            }
         }
 
         [RelayCommand]
         private void FlipCard()
         {
-            _isFrontVisible = !_isFrontVisible;
-            OnPropertyChanged(nameof(CurrentFlashcardText));
+            if (_isFrontVisible)
+            {
+                _isFrontVisible = false;
+                HasBeenFlipped = true;
+                OnPropertyChanged(nameof(CurrentFlashcardText));
+            }
         }
 
         [RelayCommand]
