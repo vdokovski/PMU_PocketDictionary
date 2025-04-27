@@ -97,4 +97,9 @@ public partial class DeckDetailsViewModel : BaseViewModel, INotifyPropertyChange
             OnPropertyChanged(nameof(Deck)); // Update the UI
         }
     }
+    [RelayCommand]
+    private async Task ReviewDeckAsync()
+    {
+        await Shell.Current.GoToAsync("//HomePage");
+    }
 }
