@@ -29,7 +29,8 @@
         <!-- Flashcard Area -->
         <Grid Grid.Row="1">
             <SwipeView x:Name="CardSwipeView" Threshold="100" 
-                       BackgroundColor="Transparent">
+                       BackgroundColor="Transparent"
+                       IsEnabled="{Binding HasBeenFlipped, Converter={StaticResource InverseBoolConverter}}">
                 <SwipeView.LeftItems>
                     <SwipeItem Text="Flip"
                                BackgroundColor="LightGray"
@@ -74,6 +75,7 @@
                     TextColor="White"
                     FontSize="18"
                     Command="{Binding DontKnowCommand}"
+                    IsEnabled="{Binding HasBeenFlipped}"
                     HorizontalOptions="Fill"
                     Margin="0,0,5,0" />
 
@@ -82,6 +84,7 @@
                     TextColor="White"
                     FontSize="18"
                     Command="{Binding KnowCommand}"
+                    IsEnabled="{Binding HasBeenFlipped}"
                     HorizontalOptions="Fill"
                     Grid.Column="1"
                     Margin="5,0,0,0" />

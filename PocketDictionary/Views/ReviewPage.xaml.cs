@@ -40,8 +40,11 @@ namespace PocketDictionary.Views
 
         public async void OnFlipInvoked(object sender, EventArgs e)
         {
-            // Perform flip animation
-            await FlipCardAnimation();
+            if (!_viewModel.HasBeenFlipped)
+            {
+                // Perform flip animation
+                await FlipCardAnimation();
+            }
         }
 
         private async Task FlipCardAnimation()
