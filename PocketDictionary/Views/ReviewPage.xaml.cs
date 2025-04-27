@@ -1,61 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Maui.Controls;
 using System.Threading.Tasks;
-using PocketDictionary.Models;
 using PocketDictionary.ViewModels;
-using PocketDictionary.Services;
 
 namespace PocketDictionary.Views
 {
     public partial class ReviewPage : ContentPage
     {
-        private readonly ReviewPageViewModel _viewModel;
+        readonly ReviewPageViewModel _viewModel;
 
         public ReviewPage(ReviewPageViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;
-            BindingContext = viewModel;
+            BindingContext = _viewModel;
         }
 
-        protected override void OnAppearing()
+        // SwipeGestureRecognizer invokes this
+        void OnSwiped(object sender, SwipedEventArgs e)
         {
-            base.OnAppearing();
-            // Make sure swipe gestures work properly
-            CardSwipeView.SwipeStarted += OnSwipeStarted;
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            CardSwipeView.SwipeStarted -= OnSwipeStarted;
-        }
-
-        private void OnSwipeStarted(object sender, SwipeStartedEventArgs e)
-        {
-            // Optional: You can add visual feedback when swipe starts
-        }
-
-        public async void OnFlipInvoked(object sender, EventArgs e)
-        {
-            if (!_viewModel.HasBeenFlipped)
+            // Only flip if left or right, and not already flipped
+            if ((e.Direction == SwipeDirection.Left || e.Direction == SwipeDirection.Right)
+                && !_viewModel.HasBeenFlipped)
             {
-                // Perform flip animation
-                await FlipCardAnimation();
+                _ = FlipCardAnimation();
             }
         }
 
-        private async Task FlipCardAnimation()
+        async Task FlipCardAnimation()
         {
-            // First half of the animation - scale down horizontally
+            // scale down
             await CardFrame.ScaleXTo(0, 100, Easing.CubicIn);
-            
-            // Execute the command - this changes the text on the card
+
+            // flip in VM
             _viewModel.FlipCardCommand.Execute(null);
-            
-            // Second half of the animation - scale back up
+
+            // scale back up
             await CardFrame.ScaleXTo(1, 100, Easing.CubicOut);
         }
     }

@@ -1,100 +1,84 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
-            xmlns:viewmodels="clr-namespace:PocketDictionary.ViewModels"  
-            x:Class="PocketDictionary.Views.ReviewPage"  
-            BackgroundColor="White"  
-            Title="Review Deck">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:PocketDictionary.ViewModels"
+    x:Class="PocketDictionary.Views.ReviewPage"
+    Title="Review Deck"
+    BackgroundColor="White">
 
     <Grid Padding="20" RowDefinitions="*,Auto">
 
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="20">
 
-                <!-- Deck Name -->
-                <VerticalStackLayout>
-                    <Label Text="{Binding Deck.Name}"   
-                          FontSize="24"   
-                          FontAttributes="Bold"   
-                          TextColor="Black"   
-                          HorizontalOptions="Start"   
-                          Margin="0,0,0,5"/>
-                </VerticalStackLayout>
+                <Label
+                  Text="{Binding Deck.Name}"
+                  FontSize="24"
+                  FontAttributes="Bold"
+                  TextColor="Black"
+                  HorizontalOptions="Start" />
 
-                <!-- Flashcard Area -->
-                <VerticalStackLayout Spacing="20">
+                <Frame
+                  x:Name="CardFrame"
+                  BackgroundColor="White"
+                  BorderColor="LightGray"
+                  CornerRadius="10"
+                  Padding="30"
+                  HeightRequest="300"
+                  WidthRequest="300"
+                  HasShadow="True">
 
-                    <SwipeView x:Name="CardSwipeView" Threshold="100"   
-                              BackgroundColor="Transparent"  
-                              IsEnabled="{Binding HasBeenFlipped, Converter={StaticResource InverseBoolConverter}}">
-                        <SwipeView.LeftItems>
-                            <SwipeItem Text="Flip"  
-                                      BackgroundColor="LightGray"  
-                                      Command="{Binding FlipCardCommand}"  
-                                      Invoked="OnFlipInvoked" />
-                        </SwipeView.LeftItems>
+                    <Frame.GestureRecognizers>
+                        <SwipeGestureRecognizer
+                          Direction="Left,Right"
+                          Swiped="OnSwiped" />
+                    </Frame.GestureRecognizers>
 
-                        <SwipeView.RightItems>
-                            <SwipeItem Text="Flip"  
-                                      BackgroundColor="LightGray"  
-                                      Command="{Binding FlipCardCommand}"  
-                                      Invoked="OnFlipInvoked" />
-                        </SwipeView.RightItems>
+                    <Label
+                        Text="{Binding CurrentFlashcardText}"
+                        FontSize="28"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Frame>
 
-                        <Frame x:Name="CardFrame"  
-                              BackgroundColor="White"  
-                              BorderColor="LightGray"  
-                              CornerRadius="10"  
-                              Padding="30"  
-                              HeightRequest="300"  
-                              WidthRequest="300"  
-                              HasShadow="True">
-
-                            <Label Text="{Binding CurrentFlashcardText}"   
-                                  FontSize="28"  
-                                  TextColor="Black"   
-                                  HorizontalOptions="Center"  
-                                  VerticalOptions="Center"  
-                                  HorizontalTextAlignment="Center"  
-                                  VerticalTextAlignment="Center" />
-                        </Frame>
-                    </SwipeView>
-                </VerticalStackLayout>
-
-                <!-- Remaining Cards -->
-                <Label Text="{Binding RemainingFlashcardsText}"   
-                      FontSize="18"   
-                      TextColor="Black"   
-                      BackgroundColor="#B0BEC5"   
-                      Padding="10"  
-                      HorizontalTextAlignment="Center"  
-                      VerticalTextAlignment="Center"  
-                      HorizontalOptions="Center"  
-                      Margin="0,10,0,0" />
+                <Label
+                  Text="{Binding RemainingFlashcardsText}"
+                  FontSize="18"
+                  TextColor="Black"
+                  BackgroundColor="#B0BEC5"
+                  Padding="10"
+                  HorizontalTextAlignment="Center"
+                  VerticalTextAlignment="Center"
+                  HorizontalOptions="Center" />
 
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Bottom Section: Buttons (I Know, I Don't Know) -->
-        <Grid Grid.Row="1" Margin="0,20,0,0" ColumnDefinitions="*,*">
-            <Button Text="I Know"  
-                   BackgroundColor="#4CAF50"   
-                   TextColor="White"  
-                   FontSize="18"  
-                   Command="{Binding KnowCardCommand}"  
-                   IsEnabled="{Binding HasBeenFlipped}"  
-                   Grid.Column="0"  
-                   VerticalOptions="Fill"  
-                   Margin="0,0,5,0" />
-
-            <Button Text="I Don't Know"  
-                   BackgroundColor="#FF9800"   
-                   TextColor="White"  
-                   FontSize="18"  
-                   Command="{Binding DontKnowCardCommand}"  
-                   IsEnabled="{Binding HasBeenFlipped}"  
-                   Grid.Column="1"  
-                   VerticalOptions="Fill"  
-                   Margin="5,0,0,0" />
+        <Grid
+          Grid.Row="1"
+          Margin="0,20,0,0"
+          ColumnDefinitions="*,*"
+          RowDefinitions="Auto">
+            <Button
+                Grid.Column="0"
+                Text="I Know"
+                BackgroundColor="#4CAF50"
+                TextColor="White"
+                FontSize="18"
+                Command="{Binding KnowCardCommand}"
+                IsEnabled="{Binding HasBeenFlipped}" />
+            <Button
+                Grid.Column="1"
+                Text="I Don't Know"
+                BackgroundColor="#FF9800"
+                TextColor="White"
+                FontSize="18"
+                Command="{Binding DontKnowCardCommand}"
+                IsEnabled="{Binding HasBeenFlipped}" />
         </Grid>
 
     </Grid>
