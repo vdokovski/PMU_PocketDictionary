@@ -57,7 +57,7 @@ public partial class HomeViewModel : ObservableObject
     [RelayCommand]
     async Task AddDeck()
     {
-        string result = await Shell.Current.DisplayPromptAsync("Ново тесте", "Въведи име на тестето:");
+        string result = await Shell.Current.DisplayPromptAsync("New deck", "Please enter the deck name:");
         if (!string.IsNullOrWhiteSpace(result))
         {
             var deck = new Deck { Name = result };
