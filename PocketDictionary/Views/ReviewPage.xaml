@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:PocketDictionary.ViewModels"
+    x:Class="PocketDictionary.Views.ReviewPage"
+    Title="Review Deck"
+    BackgroundColor="White">
+
+    <Grid Padding="20" RowDefinitions="*,Auto">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="20">
+
+                <Label
+                  Text="{Binding Deck.Name}"
+                  FontSize="24"
+                  FontAttributes="Bold"
+                  TextColor="Black"
+                  HorizontalOptions="Start" />
+
+                <Frame
+                  x:Name="CardFrame"
+                  BackgroundColor="White"
+                  BorderColor="LightGray"
+                  CornerRadius="10"
+                  Padding="30"
+                  HeightRequest="300"
+                  WidthRequest="300"
+                  HasShadow="True">
+
+                    <Frame.GestureRecognizers>
+                        <SwipeGestureRecognizer
+                          Direction="Left,Right"
+                          Swiped="OnSwiped" />
+                    </Frame.GestureRecognizers>
+
+                    <Label
+                        Text="{Binding CurrentFlashcardText}"
+                        FontSize="28"
+                        TextColor="Black"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Frame>
+
+                <Label
+                  Text="{Binding RemainingFlashcardsText}"
+                  FontSize="18"
+                  TextColor="Black"
+                  BackgroundColor="#B0BEC5"
+                  Padding="10"
+                  HorizontalTextAlignment="Center"
+                  VerticalTextAlignment="Center"
+                  HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid
+          Grid.Row="1"
+          Margin="0,20,0,0"
+          ColumnDefinitions="*,*"
+          RowDefinitions="Auto">
+            <Button
+                Grid.Column="0"
+                Text="I Know"
+                BackgroundColor="#4CAF50"
+                TextColor="White"
+                FontSize="18"
+                Command="{Binding KnowCardCommand}"
+                IsEnabled="{Binding HasBeenFlipped}" />
+            <Button
+                Grid.Column="1"
+                Text="I Don't Know"
+                BackgroundColor="#FF9800"
+                TextColor="White"
+                FontSize="18"
+                Command="{Binding DontKnowCardCommand}"
+                IsEnabled="{Binding HasBeenFlipped}" />
+        </Grid>
+
+    </Grid>
+</ContentPage>

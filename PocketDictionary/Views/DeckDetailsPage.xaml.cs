@@ -13,18 +13,24 @@ namespace PocketDictionary.Views
     public partial class DeckDetailsPage : ContentPage
     {
         private readonly DeckDetailsViewModel _viewModel;
+
+        /// <summary>  
+        /// Initializes a new instance of the <see cref="DeckDetailsPage"/> class.  
+        /// </summary>  
+        /// <param name="viewModel">The ViewModel for managing deck details.</param>  
         public DeckDetailsPage(DeckDetailsViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;
             BindingContext = viewModel;
         }
-        // Override OnAppearing to refresh deck data when the page appears
+
+        /// <summary>  
+        /// Called when the page appears. Refreshes the deck data.  
+        /// </summary>  
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
-            // Refresh the deck
             _viewModel.LoadDeck();
         }
     }

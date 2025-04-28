@@ -4,11 +4,8 @@
              x:Class="PocketDictionary.Views.DeckDetailsPage"
              Title="{Binding Deck.Name}">
 
-    <!-- Use Grid to arrange the content and buttons -->
     <Grid RowDefinitions="Auto,*,Auto,Auto" Padding="20">
-        <!-- Deck Title and Pen Icon in Row 0 -->
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
-            <!-- Deck Title aligned left -->
             <Label Text="{Binding Deck.Name}" 
                    FontSize="32" 
                    FontAttributes="Bold" 
@@ -16,7 +13,6 @@
                    VerticalOptions="Center" 
                    TextColor="Black" />
 
-            <!-- Pen Icon aligned right -->
             <ImageButton Source="pen_icon.png"
                          HorizontalOptions="End"
                          VerticalOptions="Center"
@@ -26,15 +22,12 @@
                          Command="{Binding OpenEditNameModalCommand}" />
         </Grid>
 
-        <!-- Scrollable area for the flashcards in Row 1 -->
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Spacing="10">
-                <!-- CollectionView for Flashcards -->
                 <CollectionView ItemsSource="{Binding Deck.Flashcards}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <SwipeView>
-                                <!-- Right side swipe items -->
                                 <SwipeView.RightItems>
                                     <SwipeItem 
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:DeckDetailsViewModel}}, Path=DeleteFlashcardCommand}"
@@ -43,10 +36,11 @@
                                         BackgroundColor="Red" />
                                 </SwipeView.RightItems>
 
-                                <!-- Frame containing the flashcard information -->
                                 <Frame BorderColor="LightGray" CornerRadius="10" Padding="10" Margin="5">
                                     <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:DeckDetailsViewModel}}, Path=ViewFlashcardCommand}" CommandParameter="{Binding .}" />
+                                        <TapGestureRecognizer 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:DeckDetailsViewModel}}, Path=ViewFlashcardCommand}"
+                                            CommandParameter="{Binding .}" />
                                     </Frame.GestureRecognizers>
 
                                     <VerticalStackLayout>
@@ -61,7 +55,6 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Button to navigate to create a flashcard page in Row 2 -->
         <Button Text="➕ Create a new Flashcard"
                 Command="{Binding CreateFlashcardCommand}"
                 BackgroundColor="DarkBlue"
@@ -71,9 +64,9 @@
                 VerticalOptions="Center" 
                 Grid.Row="2"/>
 
-        <!-- Button to review the deck in Row 3 -->
         <Button Text="Review Deck"
                 Command="{Binding ReviewDeckCommand}"
+                CommandParameter="{Binding Deck}"
                 BackgroundColor="Green"
                 TextColor="White"
                 FontSize="20"

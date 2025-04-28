@@ -4,9 +4,7 @@
              x:Class="PocketDictionary.Views.HomePage"
              Title="Pocket Dictionary">
 
-    <!-- Use Grid to arrange the content and buttons -->
     <Grid RowDefinitions="*,Auto" Padding="20">
-        <!-- Scrollable area for the decks -->
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="10">
                 <Label Text="Your Decks" 
@@ -55,7 +53,6 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Button to add a new deck -->
         <Button Text="➕ Add New Deck" 
                 Command="{Binding AddDeckCommand}" 
                 BackgroundColor="DarkBlue" 

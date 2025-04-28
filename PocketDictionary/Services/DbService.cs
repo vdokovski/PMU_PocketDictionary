@@ -31,10 +31,8 @@ public class DbService : IDbService
         _db.CreateTable<Flashcard>();
         _db.CreateTable<Deck>();
     }
-    /// <summary>
-    /// Gets the SQLite asynchronous connection instance.
-    /// </summary>
-    /// <returns>The SQLiteAsyncConnection instance.</returns>
+    
+    ///<inheritdoc />
     public SQLiteConnection GetConnection()
     {
         return _db;

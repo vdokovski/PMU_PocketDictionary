@@ -6,23 +6,19 @@
 
     <VerticalStackLayout Padding="20" Spacing="10">
 
-        <!-- Deck Name -->
         <Label Text="{Binding Deck.Name}"
                FontSize="24"
                HorizontalOptions="Center"
                TextColor="Black" />
 
-        <!-- Front Text Input -->
         <Entry Placeholder="Front Text" 
                Text="{Binding Flashcard.Front}" 
                FontSize="18" />
 
-        <!-- Back Text Input -->
         <Entry Placeholder="Back Text" 
                Text="{Binding Flashcard.Back}" 
                FontSize="18" />
 
-        <!-- Button to Save Flashcard -->
         <Button Text="Save Flashcard"
                 Command="{Binding SaveFlashcardCommand}"
                 BackgroundColor="DarkBlue"

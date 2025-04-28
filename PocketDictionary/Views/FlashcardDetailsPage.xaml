@@ -1,0 +1,95 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PocketDictionary.ViewModels"
+             x:Class="PocketDictionary.Views.FlashcardDetailsPage"
+             Title="Flashcard Details">
+
+    <Grid Padding="20" RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="20">
+
+                <VerticalStackLayout>
+                    <Label Text="Front" 
+                           FontSize="20" 
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="0,0,0,5"/>
+
+                    <Frame BackgroundColor="White" 
+                           Padding="30"
+                           BorderColor="LightGray" 
+                           CornerRadius="10"
+                           HeightRequest="150">
+                        <Entry Text="{Binding Flashcard.Front}" 
+                               IsReadOnly="{Binding IsReadOnly}" 
+                               TextColor="Black"
+                               FontSize="18"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="Transparent"
+                               />
+                    </Frame>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="Back" 
+                           FontSize="20" 
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Margin="0,0,0,5"/>
+
+                    <Frame BackgroundColor="White" 
+                           Padding="30"
+                           BorderColor="LightGray" 
+                           CornerRadius="10"
+                           HeightRequest="150">
+                        <Entry Text="{Binding Flashcard.Back}" 
+                               IsReadOnly="{Binding IsReadOnly}" 
+                               TextColor="Black"
+                               FontSize="18"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="Transparent"
+                               />
+                    </Frame>
+                </VerticalStackLayout>
+
+                <HorizontalStackLayout Margin="0,20,0,0" Spacing="10">
+                    <Label Text="Consecutive Correct Answers:" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="Black" />
+                    <Label Text="{Binding Flashcard.CorrectAnswersInARow}" 
+                           FontSize="18"
+                           TextColor="Black" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Margin="0,10,0,0" Spacing="10">
+                    <Label Text="Next Review Date:" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="Black" />
+                    <Label Text="{Binding Flashcard.NextReviewDate, StringFormat='{0:dd.MM.yyyy}'}" 
+                           FontSize="18"
+                           TextColor="Black" />
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button Grid.Row="1" 
+                Text="{Binding EditButtonText}" 
+                Command="{Binding ToggleEditModeCommand}"
+                BackgroundColor="DarkBlue"
+                TextColor="White"
+                FontSize="20"
+                Margin="0,20,0,0"
+                HorizontalOptions="Fill"/>
+    </Grid>
+</ContentPage>
